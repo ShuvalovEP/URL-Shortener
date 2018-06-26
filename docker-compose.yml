@@ -1,0 +1,45 @@
+ersion: '3.5'
+services:
+  web:
+    container_name: web
+    restart: always
+    build: .
+    ports:
+      - "5000"
+    volumes:
+      - ./app:/app
+  nginx:
+    image: nginx
+    container_name: nginx
+    restart: always
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/l4y.conf:/etc/nginx/sites-enabled/l4y.conf
+      - ./nginx/pgadmin.conf:/etc/nginx/sites-enabled/pgadmin.conf
+      - ./app/static:/static
+    ports:
+      - "80:80"
+      - "443:443"
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: always
+    env_file:
+      - ./environment/docker-compose.env
+    volumes:
+      - ./pgadmin:/root/.pgadmin
+    ports:
+      - "81:80"
+  postgres:
+    image: postgres
+    container_name: postgres
+    restart: always
+    env_file:
+      - ./environment/docker-compose.env
+    restart: always
+    volumes:
+      - ./postgresql/database:/var/lib/postgresql/data
+      - ./postgresql/backup:/var/lib/postgresql/backup
+    ports:
+      - "5433:5432"
+
