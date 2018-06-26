@@ -16,6 +16,7 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/l4y.conf:/etc/nginx/sites-enabled/l4y.conf
       - ./nginx/pgadmin.conf:/etc/nginx/sites-enabled/pgadmin.conf
+      - ./logs/nginx:/etc/log/nginx
       - ./app/static:/static
     ports:
       - "80:80"

@@ -1,11 +1,10 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, send_from_directory 
 from db import db_session, Urls
 from datetime import datetime
-import requests
 import logging
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static') 
 logging.basicConfig(level=logging.DEBUG)
 
 
@@ -24,12 +23,12 @@ alpha = {'1': 'A',
 def date_string():
     date = datetime.now()
     date = date.strftime('%Y-%m-%d %H:%M:%S')
-    return date #'12.06.2018 17:30:59'
+    return date
 
 
 def gen_short_link():
     short_link = ''
-    url_id = int(Urls.query.count()) + 1 # Берем кличество строк из БД
+    url_id = int(Urls.query.count()) + 1
     for row in str(url_id):
         short_link = (alpha.get(row)) + short_link
     return short_link
@@ -44,7 +43,7 @@ def get_input_urls(link):
 
 def path_validator(path):
     valid_alpha = 'ABCDEHKMOP'
-    flag = 3
+    flag = 1
     for row in path:
         if row not in valid_alpha:
             flag = 1
@@ -66,6 +65,11 @@ def save_url(url):
     db_session.close()
     return short_link
 
+@app.route('/robots.txt')
+@app.route('/sitemap.xml')
+def static_from_root():
+    return send_from_directory(app.static_folder, request.path[1:])
+
 
 @app.route('/', methods=['GET', 'POST'])
 def main():
@@ -74,7 +78,7 @@ def main():
         data = request.form['msg']
         urls = save_url(data)
     return render_template('index.html', urls=urls)
-    
+
 
 @app.route('/<path>')
 def redirect_link(path):
@@ -83,7 +87,7 @@ def redirect_link(path):
         return render_template('index.html', code=404)
     else:
         return redirect('{urls_path}'.format(urls_path=urls_path), code=302)
-        
+
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)
