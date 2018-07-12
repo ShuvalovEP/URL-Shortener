@@ -1,69 +1,65 @@
 from flask import Flask, render_template, request, redirect, send_from_directory 
 from db import db_session, Urls
 from datetime import datetime
-import logging
-
+import requests
+import uuid
 
 app = Flask(__name__, static_folder='static') 
-logging.basicConfig(level=logging.DEBUG)
-
-
-alpha = {'1': 'A',
-         '2': 'B',
-         '3': 'C',
-         '4': 'D',
-         '5': 'E',
-         '6': 'H',
-         '7': 'K',
-         '8': 'M',
-         '9': 'O',
-         '0': 'P'}
 
 
 def date_string():
-    date = datetime.now()
-    date = date.strftime('%Y-%m-%d %H:%M:%S')
-    return date
+    return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 
-def gen_short_link():
+def status_url(url):
+    return requests.get(url).status_code
+
+
+def save_url_info(url, short_link, date):
+    db_session.add(Urls(None, url, short_link, date))
+    db_session.commit()
+    db_session.close()
+    return short_link
+
+
+def short_link_generation():
     short_link = ''
-    url_id = int(Urls.query.count()) + 1
-    for row in str(url_id):
+    alpha = {'1': 'A',
+             '2': 'B',
+             '3': 'C',
+             '4': 'E',
+             '5': 'H',
+             '6': 'K',
+             '7': 'M',
+             '8': 'O',
+             '9': 'P',
+             '0': 'T'}
+    for row in str(hash(str(uuid.uuid1())) % 100000000):
         short_link = (alpha.get(row)) + short_link
     return short_link
 
 
 def get_input_urls(link):
     url_link = [url.input_url for url in Urls.query.filter(Urls.short_link == '{link}'.format(link=link))]
-    logging.info('url_link: %r', url_link)
-    url_link = url_link[0]
-    return url_link
+    if url_link != []:
+        return url_link[0]
+    else:
+        return False
 
 
 def path_validator(path):
-    valid_alpha = 'ABCDEHKMOP'
     flag = 1
     for row in path:
-        if row not in valid_alpha:
+        if row not in 'ABCEHKMOPT':
             flag = 1
             break
         else:
             flag = 0
     if flag == 0:
-        return get_input_urls(path)
+        if get_input_urls(path):
+            return get_input_urls(path)
     else:
-        return 'no_valid'
-
-
-def save_url(url):
-    short_link = gen_short_link()
-    date = date_string()
-    link = Urls(None, url, short_link, date)
-    db_session.add(link)
-    db_session.commit()
-    db_session.close()
-    return short_link
+        return False
 
 @app.route('/robots.txt')
 @app.route('/sitemap.xml')
@@ -73,20 +69,27 @@ def static_from_root():
 
 @app.route('/', methods=['GET', 'POST'])
 def main():
-    urls = ''
+    link = ''
+    status = False
     if request.method == 'POST':
-        data = request.form['msg']
-        urls = save_url(data)
-    return render_template('index.html', urls=urls)
+        url = request.form['msg']
+        status = status_url(url)
+        if status == 200:
+            link = short_link_generation()
+            save_url_info(url, link, date_string())
+            return render_template('index.html', status=status, link=link)
+        else:
+            return render_template('index.html', status=status, link=link)
+    return render_template('index.html')
 
 
 @app.route('/<path>')
 def redirect_link(path):
     urls_path = path_validator(path)
-    if urls_path == 'no_valid':
-        return render_template('index.html', code=404)
+    if urls_path:
+        return redirect('{urls_path}'.format(urls_path=urls_path), code=302) 
     else:
-        return redirect('{urls_path}'.format(urls_path=urls_path), code=302)
+        return render_template('index.html', code=404)
 
 
 if __name__ == "__main__":
