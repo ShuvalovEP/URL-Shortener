@@ -18,6 +18,10 @@ services:
       - ./nginx/pgadmin.conf:/etc/nginx/sites-enabled/pgadmin.conf
       - ./logs/nginx:/etc/log/nginx
       - ./app/static:/static
+      - ./letsencrypt:/usr/share/nginx/html
+      - ./ssl/dh-param/dhparam-2048.pem:/etc/ssl/certs/dhparam-2048.pem
+      - ./ssl/etc/letsencrypt/live/l4y.su/fullchain.pem:/etc/letsencrypt/live/l4y.su/fullchain.pem
+      - ./ssl/etc/letsencrypt/live/l4y.su/privkey.pem:/etc/letsencrypt/live/l4y.su/privkey.pem
     ports:
       - "80:80"
       - "443:443"
