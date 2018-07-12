@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <meta name=”description” content="Надежный сервис котортких ссылок"/>
+    <meta name=”description” content="Сделай длинный URL адрес (ссылку) короче! Отлично подойдет для сокращения ссылок содержащих UTM-метки."/>
     <meta name=”keywords” content="короткая ссылка,короткие ссылки гугл,сделать короткую ссылку,короткие ссылки вк,сервис коротких ссылок,goo короткие ссылки,bit ly,яндекс ссылка,ссылка вк,ссылка сокращение,link for you"/>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
@@ -58,10 +58,12 @@
               <div class="input-group mb-3">
                 <div class="input-group-prepend"><span class="input-group-text"  id="basic-addon3">Ссылка: </span></div>
                 <input type="url" name="msg" class="form-control" id="basic-url" autocomplete="off" aria-describedby="basic-addon3">
-                <div class="input-group-prepend"><button class="btn btn-outline-secondary" name="submit" type="button">Сократить</button></div>
+                <div class="input-group-prepend"><button class="btn btn-outline-secondary" name="submit" type="submit">Сократить</button></div>
               </div>
-                    {% if urls %}
-                      <div class="alert alert-success" role="alert">http://l4y.su/{{ urls }}</div>
+                    {% if link %}
+                      <div class="alert alert-success" role="alert">http://l4y.su/{{ link }}</div>
+                    {% elif status %}
+                      <div class="alert alert-danger" role="alert">Произошла ошибка: {{ status }}</div>
                     {% endif %}
          </form>
       </div>
