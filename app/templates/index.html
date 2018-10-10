@@ -1,23 +1,25 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <meta name=”description” content="Сделай длинный URL адрес (ссылку) короче! Отлично подойдет для сокращения ссылок содержащих UTM-метки."/>
-    <meta name=”keywords” content="короткая ссылка,короткие ссылки гугл,сделать короткую ссылку,короткие ссылки вк,сервис коротких ссылок,goo короткие ссылки,bit ly,яндекс ссылка,ссылка вк,ссылка сокращение,link for you"/>
+    <meta name="description" content="Надежный сервис котортких ссылок"/>
+    <meta name="keywords" content="короткая ссылка,короткие ссылки гугл,сделать короткую ссылку,короткие ссылки вк,сервис коротких ссылок,goo короткие ссылки,bit ly,яндекс ссылка,ссылка вк,ссылка сокращение,link for you"/>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous"/>
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="./static/css/style.css" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet"/>
+    <script src="./static/copy.js"></script>
     <link rel="icon" href="./static/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="./static/css/favicon.ico" type="image/x-icon"> 
-    <script type="text/javascript">!function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src="https://vk.com/js/api/openapi.js?156",t.onload=function(){VK.Retargeting.Init("VK-RTRG-257178-gKib"),VK.Retargeting.Hit()},document.head.appendChild(t)}();</script><noscript><img src="https://vk.com/rtrg?p=VK-RTRG-257178-gKib" style="position:fixed; left:-999px;" alt=""/></noscript>
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript" >
+    <link rel="shortcut icon" href="./static/favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css?family=K2D" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet"/>
+    <title>Link for You - Cервис коротких ссылок</title>
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript" >
     (function (d, w, c) {
         (w[c] = w[c] || []).push(function() {
             try {
@@ -43,39 +45,71 @@
             d.addEventListener("DOMContentLoaded", f, false);
         } else { f(); }
     })(document, window, "yandex_metrika_callbacks2");
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/49367581" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/49367581" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
-    <title>Link for You - Cервис коротких ссылок</title>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-9980596557164348",
+        enable_page_level_ads: true
+      });
+    </script>
 </head>
 <body>
   <header id="header">
       <div class="logo"><span>Link for You</span></div>
       <div class="description"><span>Cервис коротких ссылок</span></div>
-      <div class="container">
-        <form action="/" method="POST" enctype="multipart/form-data">
-            <label for="basic-url"></label>
-              <div class="input-group mb-3">
-                <div class="input-group-prepend"><span class="input-group-text"  id="basic-addon3">Ссылка: </span></div>
-                <input type="url" name="msg" class="form-control" id="basic-url" autocomplete="off" aria-describedby="basic-addon3">
-                <div class="input-group-prepend"><button class="btn btn-outline-secondary" name="submit" type="submit">Сократить</button></div>
+      <div class="container">   
+        {% if link %}
+          <div class="input-group mb-3">
+            <div class="input-group">
+              <input type="text" class="form-control" id='input' value="http://l4y.su/{{ link }}" readonly>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-outline-success" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" id='bCopy' >
+                    <i class="fa fa-copy" style="font-size:26px"></i>
+                  </button>
+                </span>
+            </div>
+          </div>
+            <div id='log'></div>
+        {% elif status %}
+          <form action="/" method="POST" enctype="multipart/form-data">
+            <div class="input-group mb-3">
+              <div class="input-group">
+                <input type="text" name="url" class="form-control" placeholder="Вставьте URL вместе с HTTP:// ">
+                  <span class="input-group-btn">
+                    <button type="submit" class="btn btn-outline-primary ">
+                      <i class="fa fa-cut" style="font-size:26px"></i>
+                    </button>
+                  </span>
               </div>
-                    {% if link %}
-                      <div class="alert alert-success" role="alert">http://l4y.su/{{ link }}</div>
-                    {% elif status %}
-                      <div class="alert alert-danger" role="alert">Произошла ошибка: {{ status }}</div>
-                    {% endif %}
-         </form>
-      </div>
+            </div>
+          </form>
+          <div class="alert alert-danger" role="alert" class="alert">Не корректное значение URL</div>
+        {% else %}
+          <form action="/" method="POST" enctype="multipart/form-data">
+            <div class="input-group mb-3">
+              <div class="input-group">
+                <input type="text" name="url" class="form-control" placeholder="Вставьте URL вместе с HTTP:// ">
+                  <span class="input-group-btn">
+                    <button type="submit" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="right" title="Tooltip on right">
+                      <i class="fa fa-cut" style="font-size:26px"></i>
+                    </button>
+                  </span>
+              </div>
+            </div>
+          </form>
+        {% endif %}
   </header>
   <footer id="footer" class="footer">
       <div class="footer-bottom">
-          <div class="container" class="top-cover>
-            <div class="row">
-              <span class="copyright">&copy; Shuvalov Evgeny</span>
-              <a href="https://vk.com/shuvalovevgeny"><i class="fa fa-vk"></i></a>
-              <a href="https://github.com/ShuvalovEP"><i class="fa fa-github"></i></a>
-              <a href="https://shuvalov.xyz"><i class="fa fa-external-link"></i></a>
+          <div class="container" class="top-cover">
+              <span class="copyright">
+                <a href="tg://resolve?domain=ShuvalovEvgeny"><i class="fa fa-telegram" style="font-size:24px"></i></a>
+                <a href="https://github.com/ShuvalovEP"><i class="fa fa-github" style="font-size:26px"></i></a>
+                <a href="http://shuvalov.xyz"><i class="fa fa-external-link" style="font-size:25px"></i></a>
+              </span>
           </div>
       </div>
   </footer>
