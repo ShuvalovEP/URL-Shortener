@@ -3,16 +3,14 @@ from db import db_session, Urls
 from datetime import datetime
 import requests
 import uuid
+import validators
+
 
 app = Flask(__name__, static_folder='static') 
 
 
 def date_string():
     return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
-
-def status_url(url):
-    return requests.get(url).status_code
 
 
 def save_url_info(url, short_link, date):
@@ -61,6 +59,12 @@ def path_validator(path):
     else:
         return False
 
+def url_validator(url):
+    if validators.url(url) == True:
+        return False
+    else:
+        return True
+
 @app.route('/robots.txt')
 @app.route('/sitemap.xml')
 def static_from_root():
@@ -70,11 +74,11 @@ def static_from_root():
 @app.route('/', methods=['GET', 'POST'])
 def main():
     link = ''
-    status = False
+    status = True
     if request.method == 'POST':
-        url = request.form['msg']
-        status = status_url(url)
-        if status == 200:
+        url = request.form['url']
+        status = url_validator(url)
+        if status == False:
             link = short_link_generation()
             save_url_info(url, link, date_string())
             return render_template('index.html', status=status, link=link)
