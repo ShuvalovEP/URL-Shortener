@@ -4,8 +4,10 @@ html {
 }
 
 body {
-    background-color:#FFFFFF; 
-    margin-bottom: 60px;
+    background: #FFFFFF;
+    background: -webkit-radial-gradient(top, #FFFFFF, #F3F3F3);
+    background: -moz-radial-gradient(top, #FFFFFF, #F3F3F3);
+    background: radial-gradient(to bottom, #FFFFFF, #F3F3F3);
 }
 
 .container {
@@ -17,26 +19,38 @@ body {
     transform: translate(-50%, -50%);
 }
 
+.alert{
+    text-align: center;
+}
+
 .logo {
     color: #696969;
     font-size: 58px;
+    font-family: 'K2D', serif; 
     position: absolute;
     display: table;
-    top: 31%;
-    left: 47.7%;
+    top: 26%;
+    left: 50.7%;
     margin-right: -50%;
     transform: translate(-50%, -50%);
 }
 
 .description {
     color: #808080;
-    font-size: 15px;
+    font-size: 17px;
+    font-family: 'Montserrat', serif; 
     position: absolute;
     display: table;
-    top: 36.3%;
+    top: 31.3%;
     left: 47.7%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
+    margin-right: -60%;
+    transform: translate(-49%, -35%);
+}
+.form-control
+{
+    font-size: 15px;
+    font-family: 'Montserrat', serif; 
+    box-shadow: 3px 2px 2px 2 #808080;
 }
 
 #footer {
@@ -58,9 +72,6 @@ body {
     padding: 10px;
 }
 
-.footer a:first-child {
-    border-left: 1px solid #808080;
-}
 
 .footer a:hover {
     color: red;
